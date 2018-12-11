@@ -1,0 +1,8 @@
+C:\Users\Steev\Documents\Visual Studio 2010\Projects\ImageModificationTest\ImageModificationTest\obj\x86\Debug\ImageModificationTest.Form1.resources
+C:\Users\Steev\Documents\Visual Studio 2010\Projects\ImageModificationTest\ImageModificationTest\obj\x86\Debug\ImageModificationTest.Properties.Resources.resources
+C:\Users\Steev\Documents\Visual Studio 2010\Projects\ImageModificationTest\ImageModificationTest\obj\x86\Debug\ImageModificationTest.csproj.GenerateResource.Cache
+C:\Users\Steev\Documents\Visual Studio 2010\Projects\ImageModificationTest\ImageModificationTest\bin\Debug\ImageModificationTest.exe
+C:\Users\Steev\Documents\Visual Studio 2010\Projects\ImageModificationTest\ImageModificationTest\bin\Debug\ImageModificationTest.pdb
+C:\Users\Steev\Documents\Visual Studio 2010\Projects\ImageModificationTest\ImageModificationTest\obj\x86\Debug\ImageModificationTest.exe
+C:\Users\Steev\Documents\Visual Studio 2010\Projects\ImageModificationTest\ImageModificationTest\obj\x86\Debug\ImageModificationTest.pdb
+C:\Users\Steev\Documents\Visual Studio 2010\Projects\ImageModificationTest\ImageModificationTest\obj\x86\Debug\ImageModificationTest.csprojResolveAssemblyReference.cache
