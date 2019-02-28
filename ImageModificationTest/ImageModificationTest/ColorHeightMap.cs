@@ -43,6 +43,7 @@ namespace ImageModificationTest
         {
             prng = new System.Random();
 
+            // if seed is given use it else make a random one
             if (_seed != null)
             {
                 mapSeed = (int)_seed;
@@ -76,6 +77,25 @@ namespace ImageModificationTest
             return bitmap;
         }
 
+        void LatLonToXYZ(double lat, double lon, ref double x, ref double y, ref double z)
+        {
+            // converts longitude and latitude coordinates to XYZ coordinates
+
+            double r =     Math.Cos(lon * (Math.PI / 180));
+                   x = r * Math.Cos(lat * (Math.PI / 180));
+                   y =     Math.Sin(lon * (Math.PI / 180));
+                   z = r * Math.Sin(lat * (Math.PI / 180));
+        }
+        void LatLonToXYZ(double lat, double lon, ref double x, ref double y, ref double z, double freq, Vector2 octOffset)
+        {
+            // converts longitude and latitude coordinates to XYZ coordinates with frequency and octave offsets
+
+            double r = Math.Cos(lon * (Math.PI / 180));
+            x = r * Math.Cos(lat * (Math.PI / 180)) * freq + octOffset.X;
+            y = Math.Sin(lon * (Math.PI / 180)) * freq + octOffset.Y;
+            z = r * Math.Sin(lat * (Math.PI / 180)) * freq + octOffset.X;
+        }
+
         public Bitmap GenerateNoise(NoiseMapParams mapParams, bool doColor, int? newSeed)
         {
             if (newSeed != null)
@@ -83,8 +103,11 @@ namespace ImageModificationTest
                 prng = new System.Random((int)newSeed);
             }
 
+            // mapParams holds all the info needed to make a varied hightmap
+            //octaves, frequancy, amplitude, persistance, lacunarity;
             Vector2[] octaveOffsets = new Vector2[mapParams.octaves];
 
+            // generate octave offsets
             for (int i = 0; i < mapParams.octaves; i++)
             {
                 float offsetX = prng.Next(0, 1500000);
@@ -92,9 +115,11 @@ namespace ImageModificationTest
                 octaveOffsets[i] = new Vector2(offsetX, offsetY);
             }
 
+            // used for lerping later
             minNoiseHeight = double.MaxValue;
             maxNoiseHeight = double.MinValue;
 
+            // fill temp data
             int octaves = mapParams.octaves;
             double frequancy = mapParams.frequancy;
             double amplitude = mapParams.amplitude;
@@ -104,9 +129,26 @@ namespace ImageModificationTest
             double heightValue;
             double perlinValue;
 
-            // loop through each x,y point - get height value
+            // Define our map area in latitude/longitude
+            double southLatBound = -180;
+            double northLatBound = 180;
+            double westLonBound = -90;
+            double eastLonBound = 90;
+
+            double lonExtent = eastLonBound - westLonBound;
+            double latExtent = northLatBound - southLatBound;
+
+            double xDelta = lonExtent / (double)mapWidth;
+            double yDelta = latExtent / (double)mapHeight;
+
+            double curLon = westLonBound;
+            double curLat = southLatBound;
+
+            // Loop through each tile using its lat/long coordinates
             for (int x = 0; x < mapWidth; x++)
             {
+                curLon = westLonBound;
+
                 for (int y = 0; y < mapHeight; y++)
                 {
                     frequancy = mapParams.frequancy;
@@ -114,25 +156,32 @@ namespace ImageModificationTest
                     heightValue = 0;
 
                     //Noise range
-                    double x1 = 0, x2 = 1;
-                    double y1 = 0, y2 = 1;
-                    double dx = x2 - x1;
-                    double dy = y2 - y1;
+                    //double x1 = 0, x2 = 1;
+                    //double y1 = 0, y2 = 1;
+                    //double dx = x2 - x1;
+                    //double dy = y2 - y1;
 
+                    double x1 = 0, y1 = 0, z1 = 0;
+                    
                     for (int i = 1; i < octaves + 1; i++)
                     {
                         //Sample noise at smaller intervals
-                        double s = (double)x / bitmap.Width;
-                        double t = (double)y / bitmap.Height;
+                        //double s = (double)x / bitmap.Width;
+                        //double t = (double)y / bitmap.Height;
 
-                        // Calculate our 4D coordinates
-                        double nx = x1 + Math.Cos(s * 2 * Math.PI) * dx / (2 * Math.PI) * frequancy + octaveOffsets[i - 1].X;
-                        double ny = y1 + Math.Cos(t * 2 * Math.PI) * dy / (2 * Math.PI) * frequancy + octaveOffsets[i - 1].Y;
-                        double nz = x1 + Math.Sin(s * 2 * Math.PI) * dx / (2 * Math.PI) * frequancy + octaveOffsets[i - 1].X;
-                        double nw = y1 + Math.Sin(t * 2 * Math.PI) * dy / (2 * Math.PI) * frequancy + octaveOffsets[i - 1].Y;
+                        // Calculate our 4D coordinates, this is used to make the output tileable
+                        //double nx = x1 + Math.Cos(s * 2 * Math.PI) * dx / (2 * Math.PI) * frequancy + octaveOffsets[i - 1].X;
+                        //double ny = y1 + Math.Cos(t * 2 * Math.PI) * dy / (2 * Math.PI) * frequancy + octaveOffsets[i - 1].Y;
+                        //double nz = x1 + Math.Sin(s * 2 * Math.PI) * dx / (2 * Math.PI) * frequancy + octaveOffsets[i - 1].X;
+                        //double nw = y1 + Math.Sin(t * 2 * Math.PI) * dy / (2 * Math.PI) * frequancy + octaveOffsets[i - 1].Y;
 
-                        perlinValue = OpenSimplexNoise.noise(nx, ny, nz, nw);
-                        heightValue += perlinValue * amplitude;
+                        // mapping the perlin noise sphereically
+                        LatLonToXYZ(curLat, curLon, ref x1, ref y1, ref z1, frequancy, octaveOffsets[i - 1]);
+                        //LatLonToXYZ(curLat, curLon, ref x1, ref y1, ref z1);
+
+                        // pull height value
+                        perlinValue = OpenSimplexNoise.noise(x1, y1, z1);
+                        heightValue += perlinValue * amplitude * frequancy + octaveOffsets[i - i].Y;
 
                         amplitude *= persistance;
                         frequancy *= lacunarity;
@@ -144,16 +193,21 @@ namespace ImageModificationTest
                     if (heightValue > maxNoiseHeight) maxNoiseHeight = heightValue;
                     else if (heightValue < minNoiseHeight) minNoiseHeight = heightValue;
 
+                    // save it
                     noiseMap[x, y] = heightValue;
+
+                    curLon += xDelta;
                 }
+                curLat += yDelta;
             }
 
+            
             if (doColor) MapBitmapToColor(true);
             else MapBitmapToGrayScale(true);
 
             return bitmap;
         }
-
+        
         public Bitmap MapBitmapToColor(bool doLerp)
         {
             int colorMaping;
@@ -217,7 +271,7 @@ namespace ImageModificationTest
             return bitmap;
         }
 
-        public Bitmap MapBitmapToGrayScale(bool doLerp)
+        public Bitmap MapBitmapToGrayScale(bool doLerp) // draws a gray scale map
         {
             int colorMaping;
 

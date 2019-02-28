@@ -6,6 +6,8 @@ using System.Text;
 namespace ImageModificationTest
 {
     // found class online translated from C++ to C#
+    // to truly understand it follow link to original article
+    //http://ranmantaru.com/blog/2011/10/08/water-erosion-on-heightmap-terrain/
 
     struct ErosionParams
     {
@@ -30,27 +32,57 @@ namespace ImageModificationTest
         void DEPOSIT_AT(int X, int Z, float W, double[,] hMap, float ds)
         {
             float delta = ds * (W);
-            if (X >= hMap.GetLength(0) || X < 0 || Z >= hMap.GetLength(1) || Z < 0)
+            
+            if (X >= hMap.GetLength(0))
             {
-                X = X;
+                X = 0;
             }
-            else
+            if (X < 0)
             {
-                hMap[X, Z] += delta;
+                X = hMap.GetLength(0) - 1;
             }
+            if (Z >= hMap.GetLength(1) || Z < 0)
+            {
+                // --------------------------------------------------------------------------------------------- needs work, leaves artifacting
+                if (Z >= hMap.GetLength(1)) Z = hMap.GetLength(1) - 1;
+                else Z = 0;
+                double percentX = ((double)X) / hMap.GetLength(0);
+                double longitude = 360 * percentX;
+                longitude -= 180;
+                if (longitude < 0) longitude += 360;
+                percentX = longitude / 360;
+                X = (int)(hMap.GetLength(0) * percentX);
+            }
+
+            hMap[X, Z] += delta;
         }
 
         void ERODE(int X, int Z, float W, double[,] hMap, float ds)
         {
             float delta = ds * (W);
-            if (X >= hMap.GetLength(0) || X < 0 || Z >= hMap.GetLength(1) || Z < 0)
+            
+            if (X >= hMap.GetLength(0))
             {
-                X = X;
+                X = 0;
             }
-            else
+            if (X < 0)
             {
-                hMap[X, Z] -= delta;
+                X = hMap.GetLength(0) - 1;
             }
+            if (Z >= hMap.GetLength(1) || Z < 0)
+            {
+                // --------------------------------------------------------------------------------------------- needs work, leaves artifacting
+                if (Z >= hMap.GetLength(1)) Z = hMap.GetLength(1) - 1;
+                else Z = 0;
+                double percentX = ((double)X) / hMap.GetLength(0);
+                double longitude = 360 * percentX;
+                longitude -= 180;
+                if (longitude < 0) longitude += 360;
+                percentX = longitude / 360;
+                X = (int)(hMap.GetLength(0) * percentX);
+            }
+
+            hMap[X, Z] -= delta;
         }
 
         public void genDropletErosion(int iterations, ErosionParams erosionParams, double[,] hMap)

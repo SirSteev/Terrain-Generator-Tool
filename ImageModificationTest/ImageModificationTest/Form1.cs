@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Xna.Framework;
+using System.Threading;
 
 namespace ImageModificationTest
 {
@@ -18,7 +19,7 @@ namespace ImageModificationTest
         {
             InitializeComponent();
 
-            heightMap = new ColorHeightMap(500, 800, null);
+            heightMap = new ColorHeightMap(500, 500, null);
 
             seedUpDown.Maximum = int.MaxValue;
 
@@ -26,6 +27,10 @@ namespace ImageModificationTest
 
             mapHeightUpDown.Value = heightMap.MapHeight;
             mapWidthUpDown.Value = heightMap.MapWidth;
+
+            // no longer relevant now using sphereical mapping
+            flattenPolesBtn.Enabled = false;
+            seamlessMeridianBtn.Enabled = false;
         }
 
         private void btnNoise_Click(object sender, EventArgs e)
@@ -34,6 +39,7 @@ namespace ImageModificationTest
 
             btnNoise.Enabled = false;
 
+            // take in values from form and package them for the hight map generation
             NoiseMapParams mapParams = new NoiseMapParams();
             mapParams.amplitude = (float)amplitudeUpDown.Value;
             mapParams.frequancy = (float)frequencyUpDown.Value;
@@ -44,15 +50,20 @@ namespace ImageModificationTest
             bool doColor;
             int? newSeed = null;
 
+            // some older that needs to be replaced but......
             if (radioButtonColorMap.Checked) doColor = true;
             else doColor = false;
 
+            // is the seed changed update it, i dont think this actually works
             if (heightMap.MapSeed != seedUpDown.Value) newSeed = (int)seedUpDown.Value;
 
+            // see color height map class
             heightMap.GenerateNoise(mapParams, doColor, newSeed);
 
+            // draws map based on form radio buttons
             DrawMap();
 
+            // generation takes a bit so dissabling then enabling the button was needed
             btnNoise.Enabled = true;
         }
 
@@ -61,6 +72,7 @@ namespace ImageModificationTest
             waterWeatherBtn.Enabled = false;
             btnNoise.Enabled = false;
 
+            // parames that the errosion class needed see droplet class for more info
             ErosionParams erosionParams = new ErosionParams();
             erosionParams.Kq = 10;
             erosionParams.Kw = 0.001f;
@@ -70,12 +82,14 @@ namespace ImageModificationTest
             erosionParams.minSlope = 0.05f;
             erosionParams.g = 20;
 
+            // how many droplets you want
             int iterations = (int)nudWeatheringDroplets.Value;
 
+            // run it
             Droplet droplet = new Droplet();
             droplet.genDropletErosion(iterations, erosionParams, heightMap.noiseMap);
 
-
+            // draw it
             DrawMap();
 
             waterWeatherBtn.Enabled = true;
@@ -83,7 +97,7 @@ namespace ImageModificationTest
             //seamlessMeridianBtn.Enabled = true;
         }
 
-        Bitmap DrawMap()
+        Bitmap DrawMap() // what radio button is true? draw that style
         {
             Bitmap bitmap;
 
@@ -96,16 +110,20 @@ namespace ImageModificationTest
             return bitmap;
         }
 
+        // randomizes the seed
         private void randomSeedBtn_Click(object sender, EventArgs e)
         {
             seedUpDown.Value = new System.Random().Next(0, int.MaxValue);
         }
 
+        // saves the map to a file in the root folder the exe is in
         private void saveBtn_Click(object sender, EventArgs e)
         {
             DrawMap().Save(@"image.png");
         }
 
+
+        // no longer relevant now using sphereical mapping
         private void flattenPolesBtn_Click(object sender, EventArgs e)
         {
             //double avgHeightNorth = 0;
@@ -152,6 +170,7 @@ namespace ImageModificationTest
             //pbxMain.Image = bitmap;
         }
 
+        // no longer relevant now using sphereical mapping
         private void seamlessMeridianBtn_Click(object sender, EventArgs e)
         {
             //double avgHeightWest = 0;
@@ -203,6 +222,7 @@ namespace ImageModificationTest
             //flattenPolesBtn.Enabled = true;
         }
 
+        // DRAW
         private void DrapMapBtn_Click(object sender, EventArgs e)
         {
             DrawMap();

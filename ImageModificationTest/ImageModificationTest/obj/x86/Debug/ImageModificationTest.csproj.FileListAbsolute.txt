@@ -6,3 +6,9 @@ C:\Users\Steev\Documents\Visual Studio 2010\Projects\ImageModificationTest\Image
 C:\Users\Steev\Documents\Visual Studio 2010\Projects\ImageModificationTest\ImageModificationTest\obj\x86\Debug\ImageModificationTest.exe
 C:\Users\Steev\Documents\Visual Studio 2010\Projects\ImageModificationTest\ImageModificationTest\obj\x86\Debug\ImageModificationTest.pdb
 C:\Users\Steev\Documents\Visual Studio 2010\Projects\ImageModificationTest\ImageModificationTest\obj\x86\Debug\ImageModificationTest.csprojResolveAssemblyReference.cache
+C:\Users\Steev\Documents\Visual Studio 2010\Projects\ImageModificationTest\ImageModificationTest\bin\Debug\Microsoft.Xna.Framework.dll
+C:\Users\Steev\Documents\Visual Studio 2010\Projects\ImageModificationTest\ImageModificationTest\bin\Debug\Microsoft.Xna.Framework.xml
+C:\Users\Steev\Desktop\ImageModificationTest\ImageModificationTest\obj\x86\Debug\ImageModificationTest.exe
+C:\Users\Steev\Desktop\ImageModificationTest\ImageModificationTest\obj\x86\Debug\ImageModificationTest.pdb
+C:\Users\Steev\Documents\GitHub\Terrain-Generator-Tool\ImageModificationTest\ImageModificationTest\obj\x86\Debug\ImageModificationTest.exe
+C:\Users\Steev\Documents\GitHub\Terrain-Generator-Tool\ImageModificationTest\ImageModificationTest\obj\x86\Debug\ImageModificationTest.pdb

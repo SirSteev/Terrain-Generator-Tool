@@ -49,6 +49,7 @@ namespace ImageModificationTest
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.radioButtonWaterTableMap = new System.Windows.Forms.RadioButton();
             this.useSeedCheckBox = new System.Windows.Forms.CheckBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.randomSeedBtn = new System.Windows.Forms.Button();
@@ -63,13 +64,12 @@ namespace ImageModificationTest
             this.seamlessMeridianBtn = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.nudWeatheringDroplets = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.waterTableUpDown = new System.Windows.Forms.NumericUpDown();
             this.DrapMapBtn = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
-            this.radioButtonWaterTableMap = new System.Windows.Forms.RadioButton();
-            this.nudWeatheringDroplets = new System.Windows.Forms.NumericUpDown();
-            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbxMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.frequencyUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.octaveUpDown)).BeginInit();
@@ -85,8 +85,8 @@ namespace ImageModificationTest
             ((System.ComponentModel.ISupportInitialize)(this.mapWidthUpDown)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.waterTableUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudWeatheringDroplets)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.waterTableUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // pbxMain
@@ -128,7 +128,7 @@ namespace ImageModificationTest
             this.frequencyUpDown.Size = new System.Drawing.Size(53, 20);
             this.frequencyUpDown.TabIndex = 4;
             this.frequencyUpDown.Value = new decimal(new int[] {
-            6,
+            1,
             0,
             0,
             0});
@@ -150,7 +150,7 @@ namespace ImageModificationTest
             this.octaveUpDown.Size = new System.Drawing.Size(53, 20);
             this.octaveUpDown.TabIndex = 5;
             this.octaveUpDown.Value = new decimal(new int[] {
-            5,
+            12,
             0,
             0,
             0});
@@ -173,10 +173,10 @@ namespace ImageModificationTest
             this.lacunarityUpDown.Size = new System.Drawing.Size(53, 20);
             this.lacunarityUpDown.TabIndex = 6;
             this.lacunarityUpDown.Value = new decimal(new int[] {
-            2,
+            15,
             0,
             0,
-            0});
+            65536});
             // 
             // persistanceUpDown
             // 
@@ -332,6 +332,16 @@ namespace ImageModificationTest
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(165, 72);
             this.panel2.TabIndex = 19;
+            // 
+            // radioButtonWaterTableMap
+            // 
+            this.radioButtonWaterTableMap.AutoSize = true;
+            this.radioButtonWaterTableMap.Location = new System.Drawing.Point(0, 46);
+            this.radioButtonWaterTableMap.Name = "radioButtonWaterTableMap";
+            this.radioButtonWaterTableMap.Size = new System.Drawing.Size(142, 17);
+            this.radioButtonWaterTableMap.TabIndex = 16;
+            this.radioButtonWaterTableMap.Text = "Water Table Height Map";
+            this.radioButtonWaterTableMap.UseVisualStyleBackColor = true;
             // 
             // useSeedCheckBox
             // 
@@ -490,6 +500,37 @@ namespace ImageModificationTest
             this.panel6.Size = new System.Drawing.Size(174, 71);
             this.panel6.TabIndex = 27;
             // 
+            // nudWeatheringDroplets
+            // 
+            this.nudWeatheringDroplets.Location = new System.Drawing.Point(6, 16);
+            this.nudWeatheringDroplets.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.nudWeatheringDroplets.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudWeatheringDroplets.Name = "nudWeatheringDroplets";
+            this.nudWeatheringDroplets.Size = new System.Drawing.Size(54, 20);
+            this.nudWeatheringDroplets.TabIndex = 14;
+            this.nudWeatheringDroplets.Value = new decimal(new int[] {
+            90000,
+            0,
+            0,
+            0});
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(3, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(98, 13);
+            this.label10.TabIndex = 15;
+            this.label10.Text = "Number of Droplets";
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -541,47 +582,6 @@ namespace ImageModificationTest
             this.label9.TabIndex = 4;
             this.label9.Text = "Water Table Height";
             // 
-            // radioButtonWaterTableMap
-            // 
-            this.radioButtonWaterTableMap.AutoSize = true;
-            this.radioButtonWaterTableMap.Location = new System.Drawing.Point(0, 46);
-            this.radioButtonWaterTableMap.Name = "radioButtonWaterTableMap";
-            this.radioButtonWaterTableMap.Size = new System.Drawing.Size(142, 17);
-            this.radioButtonWaterTableMap.TabIndex = 16;
-            this.radioButtonWaterTableMap.Text = "Water Table Height Map";
-            this.radioButtonWaterTableMap.UseVisualStyleBackColor = true;
-            // 
-            // nudWeatheringDroplets
-            // 
-            this.nudWeatheringDroplets.Location = new System.Drawing.Point(6, 16);
-            this.nudWeatheringDroplets.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.nudWeatheringDroplets.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudWeatheringDroplets.Name = "nudWeatheringDroplets";
-            this.nudWeatheringDroplets.Size = new System.Drawing.Size(54, 20);
-            this.nudWeatheringDroplets.TabIndex = 14;
-            this.nudWeatheringDroplets.Value = new decimal(new int[] {
-            30000,
-            0,
-            0,
-            0});
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(98, 13);
-            this.label10.TabIndex = 15;
-            this.label10.Text = "Number of Droplets";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -622,8 +622,8 @@ namespace ImageModificationTest
             this.panel5.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.waterTableUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudWeatheringDroplets)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.waterTableUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
